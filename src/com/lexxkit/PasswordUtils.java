@@ -6,34 +6,34 @@ public class PasswordUtils {
         boolean decision = false;
         try {
             decision = checkLogin(login) && checkPassword(password, confirmPassword);
+            return decision;
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
-        } finally {
-            return decision;
         }
+        return decision;
     }
 
     private static boolean isAlphaNumeric(String s) {
-        return s != null && s.matches("^[a-zA-Z0-9]*$");
+        return s != null && s.matches("^[a-zA-Z0-9_]*$");
     }
 
     private static boolean checkLogin(String login) {
-        if (!isAlphaNumeric(login)){
-            throw new RuntimeException("IllegalArgumentException");
-        } else if (login.length() > 20) {
+        if (login.length() > 20){
             throw new RuntimeException("WrongLoginException");
+        } else if (isAlphaNumeric(login)) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     private static boolean checkPassword(String password, String confirmPassword) {
         if (!password.equals(confirmPassword)) {
             throw new RuntimeException("WrongPasswordException");
-        } else if (!isAlphaNumeric(password) || password.length() >= 20) {
-            throw new RuntimeException("IllegalArgumentException");
+        } else if (isAlphaNumeric(password) || password.length() < 20) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 }
