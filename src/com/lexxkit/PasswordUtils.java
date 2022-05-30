@@ -6,7 +6,6 @@ public class PasswordUtils {
         boolean decision = false;
         try {
             decision = checkLogin(login) && checkPassword(password, confirmPassword);
-            return decision;
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
